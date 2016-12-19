@@ -1,0 +1,36 @@
+.plist {
+     height:450px;
+     padding:0 5px;
+     overflow:hidden;
+     text-overflow:ellipsis;
+     white-space:nowrap;
+ }
+
+ .pname {
+   display: inline-block;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: normal;
+   line-height: 1.2;
+   height: 2.4em;
+   text-align: left;
+   word-wrap: break-word;
+   display: -webkit-box;
+   -webkit-line-clamp: 2;
+   -webkit-box-orient: vertical;
+  }
+  .pintro {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.2;
+    height: 2.4em;
+    text-align: left;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+   }

@@ -1,0 +1,35 @@
+extends ./layout.jade
+block _head
+		meta(http-equiv='X-UA-Compatible', content='IE=edge')
+		title login
+		link(href='css/bootstrap.min.css', rel='stylesheet')
+		link(rel='stylesheet', href='css/font-awesome.min.css', media='screen', title='no title', charset='utf-8')
+		link(rel='stylesheet', href='css/style.css', media='screen', title='no title', charset='utf-8')
+
+block _body
+		article.container
+			.col-md-12
+				.page-header
+					#{m} #{message}
+					h1 로그인
+				form.form-horizontal(method='post', action='/login', name='mongoform')
+					.form-group
+						label.col-sm-3.control-label(for='inputEmail') 이메일
+						.col-sm-6
+							input#inputEmail.form-control(name="username", type='email', placeholder='이메일')
+					.form-group
+						label.col-sm-3.control-label(for='inputPassword') 비밀번호
+						.col-sm-6
+							input#inputPassword.form-control(name="password", type='password', placeholder='비밀번호')
+
+					.form-group
+						.col-sm-12.text-center
+							button.btn.btn-primary(type='submit') 로그인
+								i.fa.fa-check.spaceLeft
+					p
+					br
+					center
+						a(href="/join" ) 아이디가 없으신가요?
+
+
+				hr

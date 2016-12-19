@@ -1,0 +1,25 @@
+#myCarousel.carousel.slide {
+    width: 100%;
+    max-width: 700px; !important
+}
+.carousel-inner > .item > img {
+   top: 0;
+   left: 0;
+   min-width: 100%;
+   min-height: 400px;
+   max-height: 400px;
+ }
+
+     @media (max-width: 1200px) {
+     #myCarousel.carousel.slide {
+     width: 65%;
+     }
+     }
+
+
+     @media (max-width: 735px) {
+     #myCarousel.carousel.slide {
+     max-width:100%;
+     width:100%;
+     }
+     }

@@ -1,0 +1,53 @@
+extends ./layout.jade
+block _head
+		meta(http-equiv='X-UA-Compatible', content='IE=edge')
+		title 프로젝트 등록
+		link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+		link(rel='stylesheet', href='/css/font-awesome.min.css', media='screen', title='no title', charset='utf-8')
+		link(rel='stylesheet', href='/css/style.css', media='screen', title='no title', charset='utf-8')
+		script('text/javascript' src='/js/addgift.js')
+
+
+block _body
+		article.container
+			.col-md-12
+				.page-header
+					h1 프로젝트 수정
+				form.form-horizontal(method='post', action='/pr_revi', id='prrev')
+					.form-group
+						label.col-sm-3.control-label(for='inputProjectName') 프로젝트명
+						.col-sm-6
+							input#inputEmail.form-control(name='p_name', type='text', value='#{data[0].p_name}' , readonly)
+					.form-group
+						label.col-sm-3.control-label(for='inputGoal_Date') 목표일
+						.col-sm-6
+							input#inputPassword.form-control(name='goal_date', type='date', value='#{data[0].goal_date}' , readonly)
+					.form-group
+						label.col-sm-3.control-label(for='inputGoal_Fund') 목표금액
+						.col-sm-6
+							input#inputName.form-control(name='goal_fund', type='number', value='#{data[0].goal_fund}' , readonly)
+					.form-group
+						label.col-sm-3.control-label(for='inputIntro') 프로젝트 간단한 소개
+						.col-sm-6
+							input#inputAddr.form-control(name='p_intro', type='text', value='#{data[0].p_intro}')
+					.form-group
+						label.col-sm-3.control-label(for='inputContent') 프로젝트 내용
+						.col-sm-6
+							.input-group
+								textarea(name='p_content' col=30 row=50 style="resize: none; width:540px;" ) #{data[0].p_content}
+					.form-group
+						label.col-sm-3.control-label(for='pr_rev')
+						.col-sm-6
+							input#objectidgg.form-control(type='hidden' name='objectid' value='#{data[0]._id}')
+					.form-group
+						label.col-sm-3.control-label(for='giftadd') 선물을 추가하실 수 있습니다.
+						.col-sm-6
+							input#gftbtn.form-control( type='button' ,value="선물 추가하기")
+					p(id='here')
+					.form-group
+						.col-sm-12.text-center
+							button.btn.btn-primary(type='submit', value='insert')
+								| 수정완료
+								i.fa.fa-check.spaceLeft
+
+				hr

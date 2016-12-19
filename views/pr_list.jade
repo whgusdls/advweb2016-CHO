@@ -1,0 +1,46 @@
+extends ./layout.jade
+block _head
+    title pr_list
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+    link(rel='stylesheet', href='/css/listdisplay.css')
+block _body
+    #main-wrapper
+      #main.container
+        #content
+          section
+            h2
+             | 프로젝트 둘러보기
+            ul.divided
+              article.box.excerpt
+                .row
+                  -if(data){
+                    -for(var i=0, len=data.length; i<len; i++){
+                      -var s = data[i].goal_date.split('-');
+                      -var settimer = new Date(s[0], s[1]-1, s[2]);
+                      -settimer.setDate(settimer.getDate()+1);
+                      -if(settimer>Date.now()){
+                      .4u(class='12u(mobile)')
+                        section(class='plist')
+                          a.image.featured(href='/pr_view/#{data[i]._id}')
+                            img(src='#{data[i].p_image[0]}', alt='' height="240" )
+                          header
+                            h3.pname
+                              a(href="/pr_view/#{data[i]._id}")= data[i].p_name
+                          ul
+                            li(class='pr')
+                              span.pintro #{data[i].p_intro}
+                              -var fundnow=0;
+                              -for(var j in data[i].patron){
+                              -fundnow += parseInt(data[i].patron[j].fund, 10);
+                              -}
+                              -if(fundnow>data[i].goal_fund){
+                                -fundnow=100;
+                              -}else{
+                                -fundnow= 100 * fundnow / data[i].goal_fund
+                              -}
+                              -fundnow=parseInt(fundnow)
+                              div(class='progress')
+                                div(class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="#{fundnow}" aria-valuemin="0" aria-valuemax="100" style="width:#{fundnow}%") #{fundnow}
+                      -}
+                    -}
+                  -}

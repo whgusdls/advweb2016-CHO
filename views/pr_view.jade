@@ -1,0 +1,189 @@
+extends ./layout.jade
+block _head
+    title pr_view
+    script('text/javascript' src='/js/supportfund.js')
+    script('text/javascript' src='/js/comment.js')
+    link(rel='stylesheet', href='/css/TimeCircles.css')
+    script('text/javascript' src="/js/TimeCircles.js")
+    script('text/javascript' src="/js/count.js")
+    link(rel='stylesheet', href='/css/board.css')
+    link(rel='stylesheet', href='/css/carousel.css')
+block _body
+    #main-wrapper
+      #main.container
+        .row
+          #content.8u(class='12u(mobile)')
+            article.box.post
+              header
+                h2
+                  strong= datas[0].p_name
+              .container
+                br
+                #myCarousel.carousel.slide(data-ride='carousel')
+                  ol.carousel-indicators
+                    -for(var i=0; i<datas[0].p_image.length; i++){
+                      -if(i == 0){
+                        li.active(data-target='#myCarousel', data-slide-to='0')
+                      -}else{
+                        li(data-target='#myCarousel', data-slide-to='#{i}')
+                      -}
+                    -}
+                  .carousel-inner(role='listbox')
+                    -for(var i=0; i<datas[0].p_image.length; i++){
+                      -if(i == 0){
+                        .item.active
+                          img(src='#{datas[0].p_image[i]}', alt='')
+                      -}else{
+                        .item
+                          img(src='#{datas[0].p_image[i]}', alt='')
+                      -}
+                    -}
+                  a.left.carousel-control(href='#myCarousel', role='button', data-slide='prev')
+                    span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+                    span.sr-only Previous
+                  a.right.carousel-control(href='#myCarousel', role='button', data-slide='next')
+                    span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+                    span.sr-only Next
+              pre #{datas[0].p_content}
+          #sidebar.4u(class='12u(mobile)')
+            section
+              ul.divided
+                li
+                  article.box.excerpt
+                    header
+                      h3 창&nbsp&nbsp작&nbsp&nbsp자 #{datas[0].userid} 님
+                      h3 목표 금액 #{datas[0].goal_fund} 원
+                      -var fundnow=0;
+                      -var checkpatron=true;
+                      -for(var i in datas[0].patron){
+                      -fundnow += parseInt(datas[0].patron[i].fund, 10);
+                        -if(session == datas[0].patron[i].userid){
+                          -checkpatron=false;
+                        -}
+                      -}
+                      h3 모인 금액 #{fundnow} 원
+                      -if(datas[0].patron )
+                        h3 총 #{datas[0].patron.length}번의 후원이 있었습니다!
+                      -var s = datas[0].goal_date.split('-');
+                      -var settimer = new Date(s[0], s[1]-1, s[2]);
+                      -settimer.setDate(settimer.getDate()+1);
+                      -var leftT=settimer-Date.now();
+                      -leftT=Math.floor(leftT / 1000);
+                      -if(leftT>=0){
+                        h3 남은 기간
+                        div(height='50px', class='example' data-timer='#{leftT}')
+                      -}else{
+                        h3 후원 종료
+                      -}
+                -if(leftT>=0){
+                  -if(session != datas[0].userid){
+                    -if(checkpatron){
+                      -for(var i in datas[0].gift_p){
+                        li.support_gift
+                          article.box.excerpt
+                            header
+                              h3
+                                | #{datas[0].gift_p[i].price}원을 후원해주신 후원자분들께
+                                | #{datas[0].gift_p[i].product}을 드려요.
+                            -if(session){
+                              .row
+                                .6u(class='12u(mobile)')
+                                  section
+                                    form(method='post', action='/support', name='forfunding', class='supfund')
+                                      .form-group
+                                        label.col-sm-3.control-label(for='supportfund')
+                                        .col-sm-6
+                                          input#inputFund(name='supportfund', class='fundprice', type='number', value='#{datas[0].gift_p[i].price}', min='#{datas[0].gift_p[i].price}')
+                                      .form-group
+                                        label.col-sm-3.control-label(for='supportfund')
+                                        .col-sm-6
+                                          input#objectidgg.form-control(type='hidden' name='objectid' value='#{datas[0]._id}')
+                                      .form-group
+                                        label.col-sm-3.control-label(for='supportfund')
+                                        .col-sm-6
+                                          input#objectidgg.form-control(type='hidden' name='giftselected' value='#{datas[0].gift_p[i].product}')
+                                      .form-group
+                                        .col-sm-12.text-center
+                                          button.btn.btn-primary(type='submit', value='insert')
+                                            | 후원하기
+                                            i.fa.fa-check.spaceLeft
+                                          -}
+                          -}
+                        -}
+                    -else{
+                      li.sup_can
+                        article.box.excerpt
+                          header
+                            h3 후원해주셔서 감사합니다.
+                            .row
+                              .6u(class='12u(mobile)')
+                                section
+                                  form.form-horizontal(method='post', action='/suppcan', class='suppcan')
+                                    .form-group
+                                      label.col-sm-3.control-label(for='suppcan')
+                                      .col-sm-6
+                                        input#objectidgg.form-control(type='hidden' name='objectid' value='#{datas[0]._id}')
+                                    .form-group
+                                      .col-sm-12.text-center
+                                        button.btn.btn-primary(type='submit', value='insert')
+                                          | 후원취소
+                                          i.fa.fa-check.spaceLeft
+                    -}
+                    -}
+                  -else{
+                      li
+                        article.box.excerpt
+                          header
+                            h3
+                              a(href='/pr_revi/#{datas[0]._id}') 프로젝트 수정하기
+                              .row
+                                .6u(class='12u(mobile)')
+                                  section
+                                    form.form-horizontal(method='post', action='/pr_del')
+                                      .form-group
+                                        label.col-sm-3.control-label(for='suppcan')
+                                        .col-sm-6
+                                          input#objectidgg.form-control(type='hidden' name='objectid' value='#{datas[0]._id}')
+                                      .form-group
+                                        .col-sm-12.text-center
+                                          button.btn.btn-primary(type='submit', value='insert')
+                                            | 삭제하기
+                                            i.fa.fa-check.spaceLeft
+                    -}
+                  -}
+    #footer-wrapper
+      #footer.container
+        section
+          ul.divided
+            -for(var i in datas[0].comment){
+            li
+              article.box.excerpt
+                header
+                  span.date= datas[0].comment[i].time
+                  h3= datas[0].comment[i].userid
+                | #{datas[0].comment[i].message}
+                -}
+        header
+          -if(session){
+            h2
+              | 프로젝트를 위해 응원의 댓글을 써주세요!
+          .row
+            .6u(class='12u(mobile)')
+              section
+                form(method='post', action='/comment' , id='forcomment')
+                  .row(class='50%')
+                    .12u
+                      textarea(name='message', placeholder='comments' , id='cmttarea')
+                  .row(class='50%')
+                    .12u
+                      input(type='hidden' name='objectid' value='#{datas[0]._id}')
+                  .row(class='50%')
+                    .12u
+                      input.form-button-submit.button.icon.fa-envelope(type='submit' value='댓글 달기')
+                    -}else{
+                        h2 댓글은 회원만 등록이 가능합니다.
+                        p
+                        br
+                        center
+                          a(href='/login') 로그인하러 가기
+                      -}

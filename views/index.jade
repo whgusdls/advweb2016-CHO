@@ -1,0 +1,52 @@
+extends ./layout.jade
+block _head
+  title home
+
+block _body
+    #features-wrapper
+      section#features.container
+        header
+          h2
+            | 안녕하세요. 여러분
+            strong 크라우드 펀딩 사이트입니다
+            | !
+        .row
+          -if(data){
+            -var j=0;
+            -for(var i=0, len=data.length; i<len; i++){
+              -var s = data[i].goal_date.split('-');
+              -var settimer = new Date(s[0], s[1]-1, s[2]);
+              -settimer.setDate(settimer.getDate()+1);
+              -if(settimer>Date.now()){
+              .4u(class='12u(mobile)')
+                section
+                  a.image.featured(href='/pr_view/#{data[i]._id}')
+                    img(src='#{data[i].p_image[0]}', alt='' height="240")
+                  header
+                    h3
+                      a(href="/pr_view/#{data[i]._id}")= data[i].p_name
+                  ul
+                    li
+                      span #{data[i].p_intro}
+                    li
+                      div(class="progressbar" )
+                -j=j+1;
+            -}
+            -if(j==3){break;}
+          -}
+        -}
+
+        -if(!session){
+          ul.actions
+            li
+              a.button.icon.fa-file(href='/join') 가입하러 가기
+            -}
+    #banner-wrapper
+      .inner
+        section#banner.container
+          p
+            | 본 사이트는 영화, 음악, 미술 등 창조적인 분야를 총 망라하는
+            br
+            | 창작자를 위한
+            strong 크라우드 펀딩 플랫폼
+            | 입니다

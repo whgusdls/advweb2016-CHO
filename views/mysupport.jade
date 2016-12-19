@@ -1,0 +1,87 @@
+extends ./layout.jade
+block _head
+    link(rel='stylesheet', href='/css/TimeCircles.css')
+    script('text/javascript' src="/js/TimeCircles.js")
+    script('text/javascript' src="/js/count.js")
+block _body
+
+    #main-wrapper
+      #main.container
+        #content
+          section
+            -if(type==0)
+              h2 내가 후원한 프로젝트
+            -else
+              h2 내가 등록한 프로젝트
+            ul.divided
+              article.box.excerpt
+                .row
+                  -var now = new Date();
+                  -for(var i=0, len=data.length; i<len; i++){
+                    .4u(class='12u(mobile)')
+                      section(class='plist')
+                        a.image.featured(href='/pr_view/#{data[i]._id}')
+                          img(src='#{data[i].p_image[0]}', alt='' height="240")
+                        header
+                          -var s = data[i].goal_date.split('-');
+                          -var settimer = new Date(s[0], s[1]-1, s[2]);
+                          -settimer.setDate(settimer.getDate()+1);
+                          -var remaintime = (settimer.getTime()-now.getTime());
+                          -remaintime = Math.floor(remaintime / 1000);
+                          h3.pname
+                            a(href="/pr_view/#{data[i]._id}")= data[i].p_name
+                        ul
+                          li
+                            -if(type==1){
+                              -var fundnow=0;
+                              -var leftwon=0;
+                              -for(var j in data[i].patron){
+                                -fundnow += parseInt(data[i].patron[j].fund, 10);
+                              -}
+                              -leftwon=parseInt(data[i].goal_fund, 10)-fundnow;
+                              -if(fundnow >= parseInt(data[i].goal_fund,10)){
+                                span 후원 성공
+                              -} else if(remaintime<=0 && fundnow<parseInt(data[i].goal_fund,10)){
+                                span 후원 실패
+                              -} else{
+                                span 후원 진행 중
+                                br
+                                span 목표 금액까지 #{leftwon}원 남았습니다.
+                              -}
+
+
+                            -} else{
+                                -var product
+                                -var support
+                                -var fundnow=0;
+                                -for(var j in data[i].patron){
+                                  -fundnow += parseInt(data[i].patron[j].fund, 10);
+                                  -if(session == data[i].patron[j].userid){
+                                    -support=data[i].patron[j].fund
+                                    -product=data[i].patron[j].product
+                                    -}
+                                -}
+                              -if(remaintime <= 0 && fundnow < parseInt(data[i].goal_fund,10)){
+                                span 후원 실패
+                                br
+                                span 환불금액 : #{support}원
+                              -} else{
+                                span #{support} 원을 후원하셨습니다.
+                                br
+                                span 후원 선물: #{product}
+                              -}
+                            -}
+                            -if(remaintime > 0){
+                                br
+                                -var lefttime=parseInt(remaintime/(60*60*24),10);
+                                -if(lefttime==0){lefttime=parseInt(remaintime/(60*60),10);
+                                  span 남은 시간 : #{lefttime}시간
+                                -}else{
+                                  span 남은 기간 : #{lefttime}일
+                                -}
+
+                              -} else{
+                                br
+                                | 후원 종료
+                            -}
+                  -}

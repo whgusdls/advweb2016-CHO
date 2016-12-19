@@ -1,0 +1,42 @@
+extends ./layout.jade
+block _head
+  script('text/javascript' src='js/user_update_check.js')
+  title myInfo
+block _body
+    article.container
+      .col-md-12
+        .page-header
+          h1 회원 정보 수정
+        form.form-horizontal(method='post', action='/update',  onsubmit= "return user_update_check() ", id='userupd')
+          .form-group
+            label.col-sm-3.control-label(for='inputEmail') 이메일
+            .col-sm-6
+              input#inputEmail.form-control(name='userid', type='email', value=session , readonly)
+          .form-group
+            label.col-sm-3.control-label(for='inputPassword') 비밀번호
+            .col-sm-6
+              input#inputPassword.form-control(name='pw', type='password', placeholder='비밀번호')
+              p.help-block 숫자, 특수문자 포함 8자 이상
+          .form-group
+            label.col-sm-3.control-label(for='inputPasswordCheck') 비밀번호 확인
+            .col-sm-6
+              input#inputPasswordCheck.form-control(type='password', placeholder='비밀번호 확인')
+              p.help-block 비밀번호를 한번 더 입력해주세요.
+          .form-group
+            label.col-sm-3.control-label(for='inputName') 이름
+            .col-sm-6
+              input#inputName.form-control(name='name', type='text', value=data.name, readonly)
+          .form-group
+            label.col-sm-3.control-label(for='inputAddr') 주소
+            .col-sm-6
+              input#inputAddr.form-control(name='addr', type='text', value=data.addr)
+          .form-group
+            label.col-sm-3.control-label(for='inputNumber') 휴대폰번호
+            .col-sm-6
+              .input-group
+                input#inputNumber.form-control(type='tel', name='phone', value=data.phone)
+          .form-group
+            .col-sm-12.text-center
+              button.btn.btn-primary(type='submit', value='insert', onclick='this.form.action="/myinfoupdate"')
+                | 회원정보수정
+                i.fa.fa-check.spaceLeft

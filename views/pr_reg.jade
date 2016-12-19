@@ -1,0 +1,55 @@
+extends ./layout.jade
+block _head
+		meta(http-equiv='X-UA-Compatible', content='IE=edge')
+		title 프로젝트 등록
+		link(href='css/bootstrap.min.css', rel='stylesheet')
+		link(rel='stylesheet', href='css/font-awesome.min.css', media='screen', title='no title', charset='utf-8')
+		link(rel='stylesheet', href='css/style.css', media='screen', title='no title', charset='utf-8')
+		script('text/javascript' src='js/addgift.js')
+		script('text/javascript' src='js/pr_reg_check.js')
+block _body
+		article.container
+			.col-md-12
+				.page-header
+					h1 프로젝트 등록
+				form.form-horizontal(method='post', action='/input_form1', onsubmit= "return reg_check() " id='prreg', enctype="multipart/form-data")
+					.form-group
+						label.col-sm-3.control-label(for='inputProjectName') 프로젝트명
+						.col-sm-6
+							input#p_name.form-control(name='p_name', type='text', placeholder='프로젝트명')
+					.form-group
+						label.col-sm-3.control-label(for='inputGoal_Date') 목표일
+						.col-sm-6
+							-var t = new Date();
+							-var nowDate = t.getFullYear() +"-"+ (t.getMonth()+1) +"-"+ t.getDate();
+							input#goal_date.form-control(name='goal_date', type='date' min='#{nowDate}')
+					.form-group
+						label.col-sm-3.control-label(for='inputGoal_Fund2') 목표금액
+						.col-sm-6
+							input#goal_fund.form-control(name='goal_fund', type='number')
+					.form-group
+						label.col-sm-3.control-label(for='inputIntro') 프로젝트 간단한 소개
+						.col-sm-6
+							input#p_intro.form-control(name='p_intro', type='text')
+					.form-group
+						label.col-sm-3.control-label(for='inputContent') 프로젝트 내용
+						.col-sm-6
+							.input-group
+								textarea(id ='p_content' name='p_content' col=30 row=50 style="resize: none; width:540px;")
+					.form-group
+						label.col-sm-3.control-label(for='inputImage') 이미지 업로드(최대 5개)
+						.col-sm-6
+							input#userfile.form-control(name='userfile', type='file' multiple)
+					.form-group
+						label.col-sm-3.control-label(for='giftadd') 후원하신 분들을 위한 선물을 추가하세요
+						.col-sm-6
+							input#gftbtn.form-control( type='button' ,value="선물 추가하기")
+					p(id='here')
+					.form-group
+						.col-sm-12.text-center
+							button.btn.btn-primary(type='submit', value='insert')
+								| 등록하기
+								i.fa.fa-check.spaceLeft
+
+				hr
+		script(src='js/bootstrap.min.js')

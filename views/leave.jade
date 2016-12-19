@@ -1,0 +1,35 @@
+extends ./layout.jade
+block _head
+  title Member leave
+  script('text/javascript' src="./js/memberLeave.js")
+block _body
+    -if(isExist){
+      -var now = new Date();
+      -for(var i=0, len=data.length; i<len; i++){
+        -var s = data[i].goal_date.split('-');
+        -var settimer = new Date(s[0], s[1]-1, s[2]);
+        -settimer.setDate(settimer.getDate()+1);
+        -var remaintime = (settimer.getTime()-now.getTime());
+        -if(remaintime > 0 ){
+          -isExist =true;
+          -break;
+        -}else{
+          -isExist =false;
+        -}
+      -}
+    -}
+    article.container
+      .col-md-12
+        .page-header
+          center
+            h3 등록되어 진행중인 프로젝트가 있을시 탈퇴가 불가능 합니다.
+              br
+              | 탈퇴시 후원하셨던 모든 내용이 삭제됩니다. 주의해 주시기 바랍니다.
+          form.form-horizontal(method='post', action='/leave', id='userdelete')
+            .form-group
+              label.col-sm-3.control-label(for='inputEmail') 아이디
+              .col-sm-6
+                input#inputEmail.form-control(name='userid', type='email', value=session , readonly)
+              .col-sm-12.text-center
+                br
+                input(onclick="Javascript:button_event(#{isExist});" type='button', value='회원탈퇴')

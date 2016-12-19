@@ -1,0 +1,66 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    script(src="https://code.jquery.com/jquery-1.12.4.js")
+    link(rel='stylesheet', href='/assets/css/main.css')
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+    script('text/javascript' src='/js/returntop.js')
+    a(class='btn btn-primary' id='return-top' href='#', style='right:15px; bottom:15px; position:fixed; z-index:9999;') RETURN TOP
+    block _head
+
+  body.homepage
+    #page-wrapper
+      #header-wrapper
+        #header.container
+          h1#logo
+            a(href='/') 웹 크라우드 펀딩
+          p  Our mission is to help bring creative projects to life
+          nav#nav
+            ul
+              li
+                a.icon.fa-home(href='/')
+                  span 홈
+              -if(session){
+                li
+                  a.icon.fa-bar-chart-o(href='#')
+                    span 마이페이지
+                  ul
+                    li
+                      a(href='/mysupport/0') 나의 후원 현황
+                    li
+                      a(href='/mysupport/1') 내 프로젝트
+                    li
+                      span 내 정보
+                        ul
+                          li
+                            a(href='/myinfo') 정보 수정
+                          li
+                            a(href='/leave') 탈퇴 하기
+                -}
+              li
+                a.icon.fa-cog(href='/pr_list')
+                  span 프로젝트 둘러보기
+              li
+                a.icon.fa-retweet(href='/pr_reg')
+                  span 프로젝트 등록하기
+              -if(session){
+                li
+                  a.icon.fa-sitemap(href='/logout')
+                    span 로그아웃
+                li
+                  span #{name}님 환영합니다.
+                -}
+              -else{
+                li
+                  a.icon.fa-sitemap(href='/login')
+                    span 로그인
+                -}
+      block _body
+    script(src='/assets/js/jquery.dropotron.min.js')
+    script(src='/assets/js/skel.min.js')
+    script(src='/assets/js/skel-viewport.min.js')
+    script(src='/assets/js/util.js')
+    script(src='/assets/js/main.js')

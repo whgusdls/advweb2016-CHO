@@ -1,0 +1,11 @@
+pre{
+
+    background-color: #E6E6FA;
+
+    padding:10px;
+
+    overflow: auto;
+
+    white-space: pre-wrap; /* pre tag내에 word wrap */
+
+}   
